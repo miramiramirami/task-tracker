@@ -1,12 +1,19 @@
 import express from 'express';
 import { PORT } from './config';
 import { cardsRouter } from './routers/cards.router';
+import { createTables } from './database/create-tables';
 
-const server = express();
+async function run() {
+    await createTables();
 
-server.get('/', (req, res) => {
-    res.send('youre ok');
-});
+    const server = express();
 
-server.use('/cards', cardsRouter);
-server.listen(PORT);
+    server.get('/', (req, res) => {
+        res.send('ure ok');
+    });
+
+    server.use('/cards', cardsRouter);
+    server.listen(PORT);
+}
+
+run().catch((error) => console.error(error));
